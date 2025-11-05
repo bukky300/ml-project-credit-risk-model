@@ -19,25 +19,48 @@ The model helps financial institutions evaluate lending risk and improve decisio
 
 The default variable represents whether the borrower failed to meet repayment obligations and serves as the target variable.
 
-## 🧩 Modeling Approach
+## 🔍 Feature Engineering
 
-Feature Engineering:
+Created derived features:
 
-Applied Weight of Evidence (WoE) encoding and Information Value (IV) analysis for categorical variables to assess their predictive strength and ensure monotonic relationships with default risk.
+Loan-to-Income Ratio
 
-Algorithms Tested: Logistic Regression, Random Forest, XGBoost
+Delinquency Ratio = delinquent_months / total_loan_months
 
-Best Model: Logistic Regression (selected for interpretability and stability)
+Handled multicollinearity using Variance Inflation Factor (VIF) analysis.
 
-Hyperparameter Tuning: Conducted with Optuna and RandomizedSearchCV
+Encoded categorical variables using Weight of Evidence (WoE).
 
-Evaluation Metrics:
+Assessed variable strength with Information Value (IV) to select the most predictive features.
 
-ROC-AUC
+## 🤖 Modeling Approach
 
-Gini Coefficient
+Trained multiple models:
 
-KS Statistic
+Logistic Regression
+
+Random Forest
+
+XGBoost
+
+Best model: Logistic Regression (chosen for interpretability and consistency).
+
+Hyperparameter optimization with Optuna and RandomizedSearchCV.
+
+#### 📈 Model Evaluation
+Metric	Score
+AUC	0.9837
+Gini Coefficient	0.9673
+KS Statistic	85%
+#### 🎯 Credit Scoring Logic
+
+Credit score = 300 + (1 - default_probability) * 600
+
+Score Range	Rating
+300–499	Poor
+500–649	Average
+650–749	Good
+750–900	Excellent
 
 #### 💳 Credit Scoring Logic
 
@@ -58,6 +81,14 @@ Generate credit scores and risk ratings in real time
 
 Visualize default probabilities and model insights
 
+📊 Feature Importance
+
+A visualization of key features contributing to the final model.
+
+
+<img width="836" height="392" alt="image" src="https://github.com/user-attachments/assets/504cc881-e444-49c2-bffd-d0b590939a02" />
+
+
 ## 🧰 Tech Stack
 
 Python
@@ -72,29 +103,3 @@ Streamlit for web deployment
 
 Joblib for model serialization
 
-🚀 Results
-
-Achieved strong discrimination power using ROC-AUC, Gini, and KS metrics.
-
-Logistic Regression chosen for its balance of performance, interpretability, and consistency.
-
-Credit scores provide transparent, business-friendly insight into borrower risk.
-
-📂 Repository Structure
-├── app/
-│   ├── main.py                # Streamlit app
-│   ├── prediction_helper.py   # Model inference logic
-│
-├── artifacts/
-│   └── model_data.joblib      # Trained model
-│
-├── notebooks/
-│   └── credit-risk-model.ipynb
-│
-├── dataset/
-│    ├── bureau_data                
-│    ├── customers.csv
-     ├── loans.csv
-│
-└── README.md
-└── requirements.txt
